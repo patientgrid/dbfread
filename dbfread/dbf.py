@@ -236,9 +236,9 @@ class DBF(object):
 
             # For character fields > 255 bytes the high byte
             # is stored in decimal_count.
-            if field.type in 'C':
-                field.length |= field.decimal_count << 8
-                field.decimal_count = 0
+            # if field.type in 'C':
+            #     field.length |= field.decimal_count << 8
+            #     field.decimal_count = 0
 
             # Field name is b'\0' terminated.
             field.name = self._decode_text(field.name.split(b'\0')[0])

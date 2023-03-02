@@ -87,6 +87,8 @@ class DBF(object):
     """DBF table."""
     def __init__(self, filename, encoding=None, ignorecase=True,
                  lowernames=False,
+                 stripnames=False,
+                 replace_dash_names=False,
                  parserclass=FieldParser,
                  recfactory=ORDERED_DICT,
                  load=False,
@@ -97,6 +99,8 @@ class DBF(object):
         self.encoding = encoding
         self.ignorecase = ignorecase
         self.lowernames = lowernames
+        self.stripnames = stripnames
+        self.replace_dash_names = replace_dash_names
         self.parserclass = parserclass
         self.raw = raw
         self.ignore_missing_memofile = ignore_missing_memofile
@@ -244,6 +248,12 @@ class DBF(object):
             field.name = self._decode_text(field.name.split(b'\0')[0])
             if self.lowernames:
                 field.name = field.name.lower()
+
+            if self.stripnames:
+                field.name = field.name.strip()
+
+            if self.replace_dash_names:
+                field.name = field.name.replace("-", "_")
 
             self.field_names.append(field.name)
 
